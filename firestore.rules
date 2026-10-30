@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == "kamalkaran939@gmail.com";
+    }
+
+    // Library General Settings (live open/closed status, key holder, present count)
+    match /settings/general {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Students collection
+    match /students/{studentId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Attendance logs
+    match /attendance/{logId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Announcements
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Admission enquiries (public can create, only admin can read and manage)
+    match /enquiries/{enquiryId} {
+      allow create: if request.resource.data.fullName is string
+                    && request.resource.data.fullName.size() > 0
+                    && request.resource.data.fullName.size() <= 100
+                    && request.resource.data.phone is string
+                    && request.resource.data.phone.size() <= 20
+                    && request.resource.data.villageTown is string
+                    && request.resource.data.villageTown.size() <= 100
+                    && request.resource.data.examTarget is string
+                    && request.resource.data.examTarget.size() <= 100
+                    && request.resource.data.status in ['pending', 'contacted', 'admitted', 'declined'];
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Photo Gallery
+    match /gallery/{itemId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

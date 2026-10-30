@@ -1,0 +1,8 @@
+{
+  "name": "Mangupur Library",
+  "description": "Mobile-first website and digital management system for Mangupur Library in Bharthana, Etawah, UP with live seating, key holder tracking, announcements, and admissions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

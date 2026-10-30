@@ -1,0 +1,296 @@
+{
+  "entities": {
+    "LibrarySettings": {
+      "title": "LibrarySettings",
+      "description": "Global operational state of Mangupur Library including open/closed toggle, occupancy, key holder, and notices",
+      "type": "object",
+      "properties": {
+        "libraryOpen": {
+          "type": "boolean",
+          "description": "Whether the library is currently unlocked and open"
+        },
+        "statusMessage": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Real-time notice regarding library status"
+        },
+        "presentCount": {
+          "type": "number",
+          "description": "Number of students currently seated"
+        },
+        "capacity": {
+          "type": "number",
+          "description": "Total seating capacity (30)"
+        },
+        "keyHolderName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Name of the person currently holding the library keys"
+        },
+        "keyHolderPhone": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Contact number or info for the key holder"
+        },
+        "keyHolderNote": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Location or availability notes for key collection"
+        },
+        "lastModified": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "ISO timestamp of last update"
+        },
+        "updatedBy": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "UID or email of admin who last updated"
+        }
+      },
+      "required": ["libraryOpen", "presentCount", "capacity", "keyHolderName"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Registered student record in Mangupur Library",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Full student name"
+        },
+        "fatherName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Father's name"
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Private contact phone number"
+        },
+        "villageTown": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Village or town name"
+        },
+        "examTarget": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Target competitive examination"
+        },
+        "seatNumber": {
+          "type": "number",
+          "description": "Assigned seat number between 1 and 30"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive"],
+          "description": "Active enrollment status"
+        },
+        "isPresent": {
+          "type": "boolean",
+          "description": "Current attendance status inside library"
+        },
+        "joinedAt": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Date joined"
+        },
+        "lastAttendanceTime": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Timestamp of last attendance marking"
+        }
+      },
+      "required": ["name", "examTarget", "status", "isPresent"]
+    },
+    "AttendanceLog": {
+      "title": "AttendanceLog",
+      "description": "Attendance record entry for history logging",
+      "type": "object",
+      "properties": {
+        "studentId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Student document ID"
+        },
+        "studentName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Student name"
+        },
+        "examTarget": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Student goal"
+        },
+        "date": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Date string YYYY-MM-DD"
+        },
+        "time": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Time string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["present", "absent"],
+          "description": "Status marked"
+        },
+        "markedBy": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Admin email or UID who marked"
+        }
+      },
+      "required": ["studentId", "studentName", "date", "status"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Official notice or alert for library visitors",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Announcement title"
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Announcement body message"
+        },
+        "tag": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Category tag e.g. Notice, Timing, Holiday, Exam Alert"
+        },
+        "isPinned": {
+          "type": "boolean",
+          "description": "Whether to pin to the top"
+        },
+        "createdAt": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Timestamp of creation"
+        },
+        "author": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Author name"
+        }
+      },
+      "required": ["title", "content", "tag", "createdAt"]
+    },
+    "AdmissionEnquiry": {
+      "title": "AdmissionEnquiry",
+      "description": "Prospective student admission enquiry form submission",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Student full name"
+        },
+        "fatherName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Father's name"
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Phone number"
+        },
+        "villageTown": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Resident village or town"
+        },
+        "examTarget": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Competitive exam prepared for"
+        },
+        "preferredShift": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Preferred study shift"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Optional notes or message"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "contacted", "admitted", "declined"],
+          "description": "Enquiry review status"
+        },
+        "submittedAt": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Submission timestamp"
+        }
+      },
+      "required": ["fullName", "phone", "villageTown", "examTarget", "status", "submittedAt"]
+    },
+    "GalleryItem": {
+      "title": "GalleryItem",
+      "description": "Photo gallery entry for library facilities and activities",
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Image URL or local asset path"
+        },
+        "caption": {
+          "type": "string",
+          "maxLength": 150,
+          "description": "Image caption or description"
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Category e.g. Reading Hall, Facilities, Events"
+        },
+        "order": {
+          "type": "number",
+          "description": "Sort order"
+        }
+      },
+      "required": ["imageUrl", "caption"]
+    }
+  },
+  "firestore": {
+    "/settings/general": {
+      "schema": "LibrarySettings",
+      "description": "Singleton configuration document containing live status, key holder, and present student counts"
+    },
+    "/students/{studentId}": {
+      "schema": "Student",
+      "description": "Student member profiles, private phone contact, and live attendance flag"
+    },
+    "/attendance/{logId}": {
+      "schema": "AttendanceLog",
+      "description": "Historical log entries of daily attendance"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Public notices and library alerts"
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": "AdmissionEnquiry",
+      "description": "Prospective student admission enquiry submissions"
+    },
+    "/gallery/{itemId}": {
+      "schema": "GalleryItem",
+      "description": "Photo gallery images and captions"
+    }
+  }
+}
